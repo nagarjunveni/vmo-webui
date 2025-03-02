@@ -1,6 +1,7 @@
 import React from "react";
+import { BrowserRouter } from 'react-router-dom';
 import "./Dashboard.css"; // Import external CSS file
-import SOWTable from "./components/SOWTable";
+import MainContent from "./components/MainContent";
 
 const Dashboard = () => {
   return (
@@ -19,7 +20,9 @@ const Dashboard = () => {
       
       {/* Main Content */}
       <main className="content">
-        <SOWTable />
+        <BrowserRouter>
+          <MainContent />
+        </BrowserRouter>
       </main>
       
       {/* Footer */}

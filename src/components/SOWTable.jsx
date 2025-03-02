@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SOWTable.css';
 
 const SOWTable = () => {
+    const navigate = useNavigate();
+    
     // Dummy data
     const sowData = [
         {
@@ -38,11 +41,15 @@ const SOWTable = () => {
     // Calculate total sum
     const grandTotalSum = sowData.reduce((sum, sow) => sum + sow.totalAmount, 0);
 
+    const handleSowClick = (sowId) => {
+        navigate(`/sow/${sowId}`);
+    };
+
     return (
         <div className="sow-container">
             <div className="sow-header">
                 <h2>Statement of Work (SOW)</h2>
-                <button className="add-sow-btn">+ Add SOW</button>
+                <button className="add-sow-btn" onClick={() => navigate('/sow/new')}>+ Add SOW</button>
             </div>
             <div className="table-container">
                 <table className="sow-table">
@@ -65,8 +72,22 @@ const SOWTable = () => {
                     <tbody>
                         {sowData.map((sow) => (
                             <tr key={sow.id}>
-                                <td><a href={`/sow/${sow.id}`} className="table-link">{sow.id}</a></td>
-                                <td><a href={`/sow/${sow.id}`} className="table-link">{sow.name}</a></td>
+                                <td>
+                                    <button 
+                                        className="table-link"
+                                        onClick={() => handleSowClick(sow.id)}
+                                    >
+                                        {sow.id}
+                                    </button>
+                                </td>
+                                <td>
+                                    <button 
+                                        className="table-link"
+                                        onClick={() => handleSowClick(sow.id)}
+                                    >
+                                        {sow.name}
+                                    </button>
+                                </td>
                                 <td>{sow.lineManager}</td>
                                 <td>{sow.startDate}</td>
                                 <td>{sow.endDate}</td>
