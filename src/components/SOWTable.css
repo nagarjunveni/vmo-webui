@@ -77,3 +77,12 @@
     color: #0056b3;
     text-decoration: underline;
 }
+
+.summary-row {
+    background-color: black;
+    border-top: 2px solid #ddd;
+}
+
+.summary-row td {
+    padding: 12px 8px;
+}

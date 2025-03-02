@@ -35,6 +35,9 @@ const SOWTable = () => {
         // Add more dummy records as needed
     ];
 
+    // Calculate total sum
+    const grandTotalSum = sowData.reduce((sum, sow) => sum + sow.totalAmount, 0);
+
     return (
         <div className="sow-container">
             <div className="sow-header">
@@ -80,6 +83,10 @@ const SOWTable = () => {
                                 <td>${sow.totalAmount.toLocaleString()}</td>
                             </tr>
                         ))}
+                        <tr className="summary-row">
+                            <td colSpan="11" style={{ textAlign: 'right', fontWeight: 'bold' }}>Total:</td>
+                            <td style={{ fontWeight: 'bold' }}>${grandTotalSum.toLocaleString()}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
