@@ -17,7 +17,8 @@ const SOWDetails = () => {
         onsitePositions: '',
         offshorePositions: '',
         onsiteAmount: '',
-        offshoreAmount: ''
+        offshoreAmount: '',
+        projectScope: ''
     });
 
     useEffect(() => {
@@ -35,7 +36,17 @@ const SOWDetails = () => {
                 onsitePositions: 4,
                 offshorePositions: 6,
                 onsiteAmount: 400000,
-                offshoreAmount: 300000
+                offshoreAmount: 300000,
+                projectScope: `This project involves the development of a custom enterprise resource planning (ERP) system. Key deliverables include:
+
+- User authentication and role-based access control
+- Financial management module with reporting capabilities
+- Inventory management system with real-time tracking
+- Human resources module with employee self-service portal
+- Integration with existing CRM system
+- Mobile-responsive interface
+- Comprehensive documentation and training materials
+- 3 months of post-deployment support`
             };
             setFormData(dummyData);
         }
@@ -225,6 +236,18 @@ const SOWDetails = () => {
                                 />
                             </div>
                         </div>
+                    </div>
+                </div>
+                
+                <div className="form-row project-scope">
+                    <label>Project Scope</label>
+                    <div className="input-container">
+                        <textarea
+                            name="projectScope"
+                            value={formData.projectScope}
+                            onChange={handleInputChange}
+                            disabled={!isEditing}
+                        />
                     </div>
                 </div>
             </div>
