@@ -1,0 +1,79 @@
+.sow-container {
+    padding: 20px;
+}
+
+.sow-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-sow-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add-sow-btn:hover {
+    background-color: #0056b3;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.sow-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #2d2d2d;
+    color: #ffffff;
+}
+
+.sow-table th,
+.sow-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #404040;
+}
+
+.sow-table th {
+    background-color: #363636;
+    font-weight: bold;
+}
+
+.sow-table tbody tr:hover {
+    background-color: #363636;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-badge.pending {
+    background-color: #ffc107;
+    color: black;
+} 
+
+.table-link {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.table-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
