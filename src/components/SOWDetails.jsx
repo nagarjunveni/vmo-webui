@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './SOWDetails.css';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const SOWDetails = () => {
     const navigate = useNavigate();
@@ -67,6 +69,54 @@ const SOWDetails = () => {
         navigate('/');
     };
 
+    const handleDownloadPDF = async () => {
+        const element = document.querySelector('.sow-form');
+        const pdf = new jsPDF('p', 'pt', 'a4');
+        const scale = 2;
+        
+        const canvas = await html2canvas(element, {
+            scale: scale,
+            useCORS: true,
+            logging: false,
+            scrollY: -window.scrollY,
+            windowWidth: document.documentElement.offsetWidth,
+            windowHeight: document.documentElement.offsetHeight
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgWidth = canvas.width / scale;
+        const imgHeight = canvas.height / scale;
+        const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+        
+        const canvasWidth = imgWidth * ratio;
+        const canvasHeight = imgHeight * ratio;
+        
+        const marginX = (pdfWidth - canvasWidth) / 2;
+        const marginY = (pdfHeight - canvasHeight) / 2;
+
+        pdf.addImage(imgData, 'JPEG', marginX, marginY, canvasWidth, canvasHeight);
+
+        // Add new pages if content overflows
+        if (imgHeight > pdfHeight) {
+            const pageCount = Math.ceil(imgHeight / pdfHeight);
+            for (let i = 1; i < pageCount; i++) {
+                pdf.addPage();
+                pdf.addImage(
+                    imgData, 
+                    'JPEG', 
+                    marginX, 
+                    marginY - (pdfHeight * i),
+                    canvasWidth, 
+                    canvasHeight
+                );
+            }
+        }
+
+        pdf.save(`SOW_${formData.id}.pdf`);
+    };
+
     return (
         <div className="sow-details-container">
             <div className="sow-details-header">
@@ -83,6 +133,11 @@ const SOWDetails = () => {
                     {(isEditing || id === 'new') && (
                         <button className="save-btn" onClick={handleSubmit}>
                             Save
+                        </button>
+                    )}
+                    {!isEditing && (
+                        <button className="download-btn" onClick={handleDownloadPDF}>
+                            Download PDF
                         </button>
                     )}
                 </div>

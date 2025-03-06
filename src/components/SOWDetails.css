@@ -51,6 +51,11 @@
     color: white;
 }
 
+.download-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
 /* Form Styles */
 .sow-form {
     background-color: #2d2d2d;
