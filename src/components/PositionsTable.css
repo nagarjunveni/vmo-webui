@@ -1,0 +1,106 @@
+.positions-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.positions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.positions-header h2 {
+    margin: 0;
+    color: #ffffff;
+}
+
+.add-position-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.add-position-btn:hover {
+    background-color: #0069d9;
+}
+
+.table-container {
+    overflow-x: auto;
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.positions-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #ffffff;
+}
+
+.positions-table th,
+.positions-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #404040;
+}
+
+.positions-table th {
+    background-color: #363636;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+}
+
+.positions-table tr:hover {
+    background-color: #363636;
+}
+
+.table-link {
+    color: #007bff;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.table-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.open {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-badge.filled {
+    background-color: #007bff;
+    color: white;
+}
+
+.status-badge.pending-approval {
+    background-color: #ffc107;
+    color: black;
+}
+
+.status-badge.closed {
+    background-color: #6c757d;
+    color: white;
+} 

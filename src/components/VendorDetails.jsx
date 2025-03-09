@@ -1,54 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import './SOWDetails.css';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import './VendorDetails.css';
 
-const SOWDetails = () => {
+const VendorDetails = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [isEditing, setIsEditing] = useState(id === 'new');
     const [formData, setFormData] = useState({
         id: '',
         name: '',
-        lineManager: '',
-        startDate: '',
-        endDate: '',
-        status: 'Active',
-        totalPositions: '',
-        onsitePositions: '',
-        offshorePositions: '',
-        onsiteAmount: '',
-        offshoreAmount: '',
-        projectScope: ''
+        contactName: '',
+        contactNumber: '',
+        email: '',
+        commission: '',
+        location: 'US',
+        address: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: '',
+        notes: ''
     });
 
     useEffect(() => {
         if (id && id !== 'new') {
-            // Fetch SOW data based on ID
+            // Fetch vendor data based on ID
             // For now, using dummy data
             const dummyData = {
-                id: 'SOW001',
-                name: 'Project Alpha',
-                lineManager: 'John Doe',
-                startDate: '2024-01-01',
-                endDate: '2024-12-31',
-                status: 'Active',
-                totalPositions: 10,
-                onsitePositions: 4,
-                offshorePositions: 6,
-                onsiteAmount: 400000,
-                offshoreAmount: 300000,
-                projectScope: `This project involves the development of a custom enterprise resource planning (ERP) system. Key deliverables include:
-
-- User authentication and role-based access control
-- Financial management module with reporting capabilities
-- Inventory management system with real-time tracking
-- Human resources module with employee self-service portal
-- Integration with existing CRM system
-- Mobile-responsive interface
-- Comprehensive documentation and training materials
-- 3 months of post-deployment support`
+                id: 'VEN001',
+                name: 'TechSolutions Inc.',
+                contactName: 'Robert Johnson',
+                contactNumber: '+1 (555) 123-4567',
+                email: 'robert.johnson@techsolutions.com',
+                commission: 10,
+                location: 'US',
+                address: '123 Tech Blvd',
+                city: 'San Francisco',
+                state: 'CA',
+                zipCode: '94105',
+                country: 'United States',
+                notes: 'Preferred vendor for software development resources.'
             };
             setFormData(dummyData);
         }
@@ -69,58 +60,10 @@ const SOWDetails = () => {
         navigate('/');
     };
 
-    const handleDownloadPDF = async () => {
-        const element = document.querySelector('.sow-form');
-        const pdf = new jsPDF('p', 'pt', 'a4');
-        const scale = 2;
-        
-        const canvas = await html2canvas(element, {
-            scale: scale,
-            useCORS: true,
-            logging: false,
-            scrollY: -window.scrollY,
-            windowWidth: document.documentElement.offsetWidth,
-            windowHeight: document.documentElement.offsetHeight
-        });
-
-        const imgData = canvas.toDataURL('image/jpeg', 1.0);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgWidth = canvas.width / scale;
-        const imgHeight = canvas.height / scale;
-        const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-        
-        const canvasWidth = imgWidth * ratio;
-        const canvasHeight = imgHeight * ratio;
-        
-        const marginX = (pdfWidth - canvasWidth) / 2;
-        const marginY = (pdfHeight - canvasHeight) / 2;
-
-        pdf.addImage(imgData, 'JPEG', marginX, marginY, canvasWidth, canvasHeight);
-
-        // Add new pages if content overflows
-        if (imgHeight > pdfHeight) {
-            const pageCount = Math.ceil(imgHeight / pdfHeight);
-            for (let i = 1; i < pageCount; i++) {
-                pdf.addPage();
-                pdf.addImage(
-                    imgData, 
-                    'JPEG', 
-                    marginX, 
-                    marginY - (pdfHeight * i),
-                    canvasWidth, 
-                    canvasHeight
-                );
-            }
-        }
-
-        pdf.save(`SOW_${formData.id}.pdf`);
-    };
-
     return (
-        <div className="sow-details-container">
-            <div className="sow-details-header">
-                <h2>{id === 'new' ? 'Create New SOW' : `SOW Details - ${formData.id}`}</h2>
+        <div className="vendor-details-container">
+            <div className="vendor-details-header">
+                <h2>{id === 'new' ? 'Add New Vendor' : `Vendor Details - ${formData.id}`}</h2>
                 <div className="button-group">
                     <button className="cancel-btn" onClick={() => navigate('/')}>
                         Back
@@ -135,18 +78,13 @@ const SOWDetails = () => {
                             Save
                         </button>
                     )}
-                    {id !== 'new' && !isEditing && (
-                        <button className="download-btn" onClick={handleDownloadPDF}>
-                            Download PDF
-                        </button>
-                    )}
                 </div>
             </div>
-            <div className="sow-form">
+            <div className="vendor-form">
                 <div className="form-columns">
                     <div className="form-column">
                         <div className="form-row">
-                            <label>SOW ID</label>
+                            <label>Vendor ID</label>
                             <div className="input-container">
                                 <input
                                     type="text"
@@ -158,7 +96,7 @@ const SOWDetails = () => {
                             </div>
                         </div>
                         <div className="form-row">
-                            <label>SOW Name</label>
+                            <label>Vendor Name</label>
                             <div className="input-container">
                                 <input
                                     type="text"
@@ -170,139 +108,144 @@ const SOWDetails = () => {
                             </div>
                         </div>
                         <div className="form-row">
-                            <label>Line Manager</label>
+                            <label>Contact Name</label>
                             <div className="input-container">
                                 <input
                                     type="text"
-                                    name="lineManager"
-                                    value={formData.lineManager}
+                                    name="contactName"
+                                    value={formData.contactName}
                                     onChange={handleInputChange}
                                     disabled={!isEditing}
                                 />
                             </div>
                         </div>
                         <div className="form-row">
-                            <label>Status</label>
-                            <div className="input-container">
-                                <select
-                                    name="status"
-                                    value={formData.status}
-                                    onChange={handleInputChange}
-                                    disabled={!isEditing}
-                                >
-                                    <option value="Active">Active</option>
-                                    <option value="Pending">Pending</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className="form-row">
-                            <label>Effective Start Date</label>
+                            <label>Contact Number</label>
                             <div className="input-container">
                                 <input
-                                    type="date"
-                                    name="startDate"
-                                    value={formData.startDate}
+                                    type="text"
+                                    name="contactNumber"
+                                    value={formData.contactNumber}
                                     onChange={handleInputChange}
                                     disabled={!isEditing}
                                 />
                             </div>
                         </div>
                         <div className="form-row">
-                            <label>End Date</label>
+                            <label>Email</label>
                             <div className="input-container">
                                 <input
-                                    type="date"
-                                    name="endDate"
-                                    value={formData.endDate}
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
                                     onChange={handleInputChange}
                                     disabled={!isEditing}
+                                />
+                            </div>
+                        </div>
+                        <div className="form-row">
+                            <label>Commission (%)</label>
+                            <div className="input-container">
+                                <input
+                                    type="number"
+                                    name="commission"
+                                    value={formData.commission}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing}
+                                    step="0.1"
+                                    min="0"
+                                    max="100"
                                 />
                             </div>
                         </div>
                     </div>
                     <div className="form-column">
                         <div className="form-row">
-                            <label>Total Positions</label>
+                            <label>Location</label>
+                            <div className="input-container">
+                                <select
+                                    name="location"
+                                    value={formData.location}
+                                    onChange={handleInputChange}
+                                    disabled={!isEditing}
+                                >
+                                    <option value="US">US</option>
+                                    <option value="India">India</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="form-row">
+                            <label>Address</label>
                             <div className="input-container">
                                 <input
-                                    type="number"
-                                    name="totalPositions"
-                                    value={formData.totalPositions}
+                                    type="text"
+                                    name="address"
+                                    value={formData.address}
                                     onChange={handleInputChange}
                                     disabled={!isEditing}
                                 />
                             </div>
                         </div>
                         <div className="form-row">
-                            <label>Onsite Positions</label>
+                            <label>City</label>
                             <div className="input-container">
                                 <input
-                                    type="number"
-                                    name="onsitePositions"
-                                    value={formData.onsitePositions}
+                                    type="text"
+                                    name="city"
+                                    value={formData.city}
                                     onChange={handleInputChange}
                                     disabled={!isEditing}
                                 />
                             </div>
                         </div>
                         <div className="form-row">
-                            <label>Offshore Positions</label>
+                            <label>State/Province</label>
                             <div className="input-container">
                                 <input
-                                    type="number"
-                                    name="offshorePositions"
-                                    value={formData.offshorePositions}
+                                    type="text"
+                                    name="state"
+                                    value={formData.state}
                                     onChange={handleInputChange}
                                     disabled={!isEditing}
                                 />
                             </div>
                         </div>
                         <div className="form-row">
-                            <label>Total Onsite Amount</label>
+                            <label>Zip/Postal Code</label>
                             <div className="input-container">
                                 <input
-                                    type="number"
-                                    name="onsiteAmount"
-                                    value={formData.onsiteAmount}
+                                    type="text"
+                                    name="zipCode"
+                                    value={formData.zipCode}
                                     onChange={handleInputChange}
                                     disabled={!isEditing}
                                 />
                             </div>
                         </div>
                         <div className="form-row">
-                            <label>Total Offshore Amount</label>
+                            <label>Country</label>
                             <div className="input-container">
                                 <input
-                                    type="number"
-                                    name="offshoreAmount"
-                                    value={formData.offshoreAmount}
+                                    type="text"
+                                    name="country"
+                                    value={formData.country}
                                     onChange={handleInputChange}
                                     disabled={!isEditing}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-row">
-                            <label>Grand Total Amount</label>
-                            <div className="input-container">
-                                <input
-                                    type="number"
-                                    value={Number(formData.onsiteAmount || 0) + Number(formData.offshoreAmount || 0)}
-                                    disabled
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div className="form-row project-scope">
-                    <label>Project Scope</label>
+                <div className="form-row notes-row">
+                    <label>Notes</label>
                     <div className="input-container">
                         <textarea
-                            name="projectScope"
-                            value={formData.projectScope}
+                            name="notes"
+                            value={formData.notes}
                             onChange={handleInputChange}
                             disabled={!isEditing}
-                        />
+                            rows="4"
+                        ></textarea>
                     </div>
                 </div>
             </div>
@@ -310,4 +253,4 @@ const SOWDetails = () => {
     );
 };
 
-export default SOWDetails; 
+export default VendorDetails; 

@@ -6,8 +6,8 @@ import MainContent from "./components/MainContent";
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState("SOWs");
 
-  const handleMenuClick = (menu) => {
-    setActiveMenu(menu);
+  const handleMenuClick = (menuItem) => {
+    setActiveMenu(menuItem);
   };
 
   return (
@@ -44,6 +44,15 @@ const Dashboard = () => {
                 Positions
               </a>
             </li>
+            <li>
+              <a 
+                href="#" 
+                className={activeMenu === "Vendors" ? "active" : ""}
+                onClick={() => handleMenuClick("Vendors")}
+              >
+                Vendors
+              </a>
+            </li>
           </ul>
         </nav>
       </header>
@@ -51,7 +60,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="content">
         <BrowserRouter>
-          <MainContent  activeMenu={activeMenu}  />
+          <MainContent activeMenu={activeMenu} />
         </BrowserRouter>
       </main>
       
